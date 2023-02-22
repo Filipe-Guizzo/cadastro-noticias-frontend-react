@@ -1,0 +1,30 @@
+.show{ 
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    bottom: 5%;
+}
+
+.hide{
+    display: none;
+}
+
+.danger{
+    text-align: center;
+    width: 300px;
+    background-color: #cc331f;
+    padding: 20px;
+    border-radius: 20px;
+    color: #781002;
+}
+
+.success{
+    text-align: center;
+    width: 300px;
+    background-color: #54f754;
+    padding: 20px;
+    border-radius: 20px;
+    color: #256625;
+}
