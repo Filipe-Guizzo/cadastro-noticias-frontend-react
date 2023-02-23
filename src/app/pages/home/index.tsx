@@ -1,7 +1,11 @@
+import Header from '../../components/Header';
 import styles from './styles.module.css';
 
 export default function Home(){
     return(
-        <h1>Home</h1>
+        <div>
+            <Header buscaInput={true}/>
+            <h1>Home</h1>
+        </div>
     )
 }

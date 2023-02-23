@@ -2,5 +2,8 @@ import { createContext } from "react";
 
 export const authContext = createContext({
     token: '',
-    setToken: (token:string)=>{}
+    setToken: (token:string)=>{},
+    clearToken: ()=>{},
+    isAuth: false,
+    setIsAuth: (value:boolean)=>{}
 })

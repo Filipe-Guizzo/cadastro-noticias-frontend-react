@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Alert from '../../components/alert';
 import Loader from '../../components/loader';
 import { pessoaService } from '../../services/pessoa/pessoa-service';
+import { useNavigate } from 'react-router-dom';
 
 export default function EsqueceuSenha(){
     const [email, setEmail] = useState({value:'', hidden:false});
@@ -15,6 +16,7 @@ export default function EsqueceuSenha(){
     const [loader, setLoader] = useState('hide');
     const [enviarCodigo, setEnviarCodigo] = useState(false);
     const [compararCodigo, setCompararCodigo] = useState(true);
+    const navigate = useNavigate();
 
     function onChangeEmail(e:any){
         const value = e.target.value;
@@ -22,7 +24,7 @@ export default function EsqueceuSenha(){
     }
 
     function onChangeCodigo(e:any){
-        const value = e.target.value;
+        const value = Number(e.target.value);
         setCodigo({value:value, hidden:codigo.hidden});
     }
 
@@ -31,7 +33,7 @@ export default function EsqueceuSenha(){
         const recuperarSenha = {
             email: email.value
         }
-        if(recuperarSenha.email == ''){
+        if(recuperarSenha.email === ''){
             setAlert({hidden: 'show',label: 'Preencha todos os campos',type: 'danger'});
         }else{
             const data = await pessoaService.recuperarSenha(recuperarSenha);
@@ -53,14 +55,27 @@ export default function EsqueceuSenha(){
 
     async function onClickCompararCodigo(){
         setLoader('show');
-        if(codigo.value == 0){
+        if(codigo.value === 0){
             setAlert({hidden: 'show',label: 'Preencha todos os campos',type: 'danger'});
         }else{
-            if(codigo.value != codigoEnviado){
+            if(codigo.value !== codigoEnviado){
                 setAlert({hidden: 'show',label: 'Codigos diferentes',type: 'danger'});
             }else{
                 setAlert({hidden: 'show',label: 'Codigo validado com sucesso',type: 'success'});
+                navigate(`/pessoas/${idPessoa}/alterar-senha`);
             }
+        }
+        setLoader('hide')
+    }
+    
+    async function onClickReenviarCodigo(){
+        setLoader('show');
+        const reenviarCodigo = { id_pessoa: idPessoa, codigo:codigoEnviado };
+        const data = await pessoaService.reenviarCodigo(reenviarCodigo);
+        if(data?.codigo){
+            setAlert({hidden: 'show',label: 'Codigo enviado com sucesso',type: 'success'});
+        }else{
+            setAlert({hidden: 'show',label: data?.message!,type: 'danger'});
         }
         setLoader('hide')
     }
@@ -85,6 +100,8 @@ export default function EsqueceuSenha(){
                     </div>
                     <div className={styles.field}>
                         <Button label='Enviar codigo' type='button' hidden={enviarCodigo} onClick={onClickEnviarCodigo}/>
+                        <Button label='Reenviar codigo' type='button' hidden={compararCodigo} onClick={onClickReenviarCodigo}/>
+                        <br />
                         <Button label='Comparar codigo' type='button' hidden={compararCodigo} onClick={onClickCompararCodigo}/>
                     </div>
                 </form>

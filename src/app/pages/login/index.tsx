@@ -7,13 +7,15 @@ import { LoginService } from '../../services/login/login-service';
 import Alert from '../../components/alert';
 import Loader from '../../components/loader';
 import { authContext } from '../../contexts/auth-context';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login(){
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [alert, setAlert] = useState({hidden: 'hide',label: '',type: 'danger'});
     const [loader, setLoader] = useState('hide');
-    const { setToken } = useContext(authContext);
+    const { setToken, setIsAuth } = useContext(authContext);
+    const navigate = useNavigate();
 
     function onChangeEmail(e:any){
         const value = e.target.value;
@@ -29,15 +31,17 @@ export default function Login(){
         setLoader('show');
         const login = {email: email,senha:senha}
     
-        if(login.email == '' || login.senha == ''){
+        if(login.email === '' || login.senha === ''){
             setAlert({hidden: 'show',label: 'Preencha todos os campos',type: 'danger'})
             setLoader('hide');
         }else{
             const data = await LoginService.login(login);
             if(data?.token){
                 setToken(data.token);
+                setIsAuth(true);
                 setAlert({hidden: 'show',label: 'Logado com sucesso',type: 'success'})
                 setLoader('hide');
+                navigate("/home");
             }else{
                 setAlert({hidden: 'show',label: data?.message!,type: 'danger'})
                 setLoader('hide');
@@ -67,7 +71,7 @@ export default function Login(){
                 </form>
                 <br />
                 <br />
-                <Link to="/login">Não tem uma conta?</Link>
+                <Link to="/cadastrar-pessoa">Não tem uma conta?</Link>
                 <br />
                 <Link to="/esqueceu-senha">Esqueceu a senha?</Link>
             </div>
