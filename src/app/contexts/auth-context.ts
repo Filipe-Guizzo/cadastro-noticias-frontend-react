@@ -5,5 +5,7 @@ export const authContext = createContext({
     setToken: (token:string)=>{},
     clearToken: ()=>{},
     isAuth: false,
-    setIsAuth: (value:boolean)=>{}
+    setIsAuth: (value:boolean)=>{},
+    idUsuario: 0,
+    setIdUsuario: (value:number)=>{}
 })

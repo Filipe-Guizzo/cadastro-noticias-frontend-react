@@ -9,6 +9,8 @@ import { authContext } from '../../contexts/auth-context';
 import { pessoaService } from '../../services/pessoa/pessoa-service';
 import { useNavigate } from 'react-router-dom';
 import FileInput from '../../components/file-input';
+import Box from '../../components/box';
+import Field from '../../components/field';
 
 export default function CadastrarPessoa(){
     const [nome, setNome] = useState('');
@@ -21,7 +23,7 @@ export default function CadastrarPessoa(){
 
     const [alert, setAlert] = useState({hidden: 'hide',label: '',type: 'danger'});
     const [loader, setLoader] = useState('hide');
-    const { setToken, setIsAuth } = useContext(authContext);
+    const { setToken, setIsAuth, setIdUsuario } = useContext(authContext);
 
     function onChangeNome(e:any){
         const value = e.target.value;
@@ -80,6 +82,7 @@ export default function CadastrarPessoa(){
                 const data = await pessoaService.criar(pessoa);
                 if(data?.token){
                     setToken(data.token);
+                    setIdUsuario(data.id!);
                     const form = new FormData();
                     form.append("file", imagem);
                     await pessoaService.uploadFile(data?.id!, form);
@@ -98,42 +101,42 @@ export default function CadastrarPessoa(){
 
     return(
         <div className={styles.container}>
-            <div className={styles.box}>
+            <Box>
                 <h1>Cadastro</h1>
                 <br />
                 <br />
                 <form>
-                    <div className={styles.field}>
+                    <Field>
                         <label htmlFor="nome">Nome:</label>
                         <Input value={nome} placeholder='Digite seu nome' id='nome' name='nome' type='text' hidden={false} onChange={(e)=>{onChangeNome(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <label htmlFor="telefone">Telefone:</label>
                         <Input value={telefone} placeholder='Digite seu telefone' id='telefone' name='telefone' type='text' hidden={false} onChange={(e)=>{onChangeTelefone(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <label htmlFor="email">E-mail:</label>
                         <Input value={email} placeholder='Digite seu e-mail' id='email' name='email' type='email' hidden={false} onChange={(e)=>{onChangeEmail(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <label htmlFor="senha">Senha:</label>
                         <Input value={senha} placeholder='Digite sua senha' id='senha' name='senha' type='password' hidden={false} onChange={(e)=>{onChangeSenha(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <label htmlFor="senha-confirmar">Senha:</label>
                         <Input value={senhaConfirmar} placeholder='Digite sua senha novamente' id='senha-confirmar' name='senha-confirmar' type='password' hidden={false} onChange={(e)=>{onChangeSenhaConfirmar(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <FileInput id='imagem'  name='imagem' onChange={(e)=>{onChangeImagem(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <Button label='Cadastrar' type='button' hidden={false} onClick={onClickCadastrar}/>
-                    </div>
+                    </Field>
                 </form>
                 <br />
                 <br />
                 <Link to="/login">Já possui uma conta?</Link>
-            </div>
+            </Box>
             <Alert label={alert.label} hidden={alert.hidden} type={alert.type}/>
             <Loader hidden={loader}/>
         </div>

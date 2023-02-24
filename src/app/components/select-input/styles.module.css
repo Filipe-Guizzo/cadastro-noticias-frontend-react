@@ -1,0 +1,17 @@
+.input{
+    width: 300px;
+    height: 50px;
+    background-color: #fff;
+    color: var(--primary);
+    font-size: 14pt;
+    border-radius: 20px;
+    border: 5px;
+    border-color: var(--primary);
+    border-style: solid;
+    text-align: center;
+    transition: 0.5s;
+}
+
+.input:focus{
+    box-shadow: 10px 10px var(--transparent);
+}

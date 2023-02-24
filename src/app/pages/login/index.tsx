@@ -8,13 +8,16 @@ import Alert from '../../components/alert';
 import Loader from '../../components/loader';
 import { authContext } from '../../contexts/auth-context';
 import { useNavigate } from 'react-router-dom';
+import Box from '../../components/box';
+import Field from '../../components/field';
+import Container from '../../components/container';
 
 export default function Login(){
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [alert, setAlert] = useState({hidden: 'hide',label: '',type: 'danger'});
     const [loader, setLoader] = useState('hide');
-    const { setToken, setIsAuth } = useContext(authContext);
+    const { setToken, setIsAuth, setIdUsuario } = useContext(authContext);
     const navigate = useNavigate();
 
     function onChangeEmail(e:any){
@@ -39,6 +42,7 @@ export default function Login(){
             if(data?.token){
                 setToken(data.token);
                 setIsAuth(true);
+                setIdUsuario(data.id_pessoa!);
                 setAlert({hidden: 'show',label: 'Logado com sucesso',type: 'success'})
                 setLoader('hide');
                 navigate("/home");
@@ -51,32 +55,32 @@ export default function Login(){
     }
 
     return(
-        <div className={styles.container}>
-            <div className={styles.box}>
+        <Container>
+            <Box>
                 <h1>Login</h1>
                 <br />
                 <br />
                 <form>
-                    <div className={styles.field}>
+                    <Field>
                         <label htmlFor="email">E-mail:</label>
                         <Input value={email} placeholder='Digite seu e-mail' id='email' name='email' type='email' hidden={false} onChange={(e)=>{onChangeEmail(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <label htmlFor="senha">Senha:</label>
                         <Input value={senha} placeholder='Digite sua senha' id='senha' name='senha' type='password' hidden={false} onChange={(e)=>{onChangeSenha(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <Button label='Entrar' type='button' hidden={false} onClick={onClickEntrar}/>
-                    </div>
+                    </Field>
                 </form>
                 <br />
                 <br />
                 <Link to="/cadastrar-pessoa">Não tem uma conta?</Link>
                 <br />
                 <Link to="/esqueceu-senha">Esqueceu a senha?</Link>
-            </div>
+            </Box>
             <Alert label={alert.label} hidden={alert.hidden} type={alert.type}/>
             <Loader hidden={loader}/>
-        </div>
+        </Container>
     )
 }

@@ -6,6 +6,9 @@ import Alert from '../../components/alert';
 import Loader from '../../components/loader';
 import { pessoaService } from '../../services/pessoa/pessoa-service';
 import { useNavigate } from 'react-router-dom';
+import Box from '../../components/box';
+import Field from '../../components/field';
+import Container from '../../components/container';
 
 export default function EsqueceuSenha(){
     const [email, setEmail] = useState({value:'', hidden:false});
@@ -81,8 +84,8 @@ export default function EsqueceuSenha(){
     }
 
     return(
-        <div className={styles.container}>
-            <div className={styles.box}>
+        <Container>
+            <Box>
                 <h1>Recuperação de senha</h1>
                 <br />
                 <br />
@@ -90,24 +93,24 @@ export default function EsqueceuSenha(){
                 <br />
                 <br />
                 <form>
-                    <div className={styles.field}>
+                    <Field>
                         <label htmlFor="email" hidden={email.hidden}>E-mail:</label>
                         <Input value={email.value} placeholder='Digite seu e-mail' id='email' name='email' type='email' hidden={email.hidden} onChange={(e)=>{onChangeEmail(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <label htmlFor="codigo" hidden={codigo.hidden}>Codigo:</label>
                         <Input value={codigo.value} placeholder='Digite o codigo enviado:' id='codigo' name='codigo' type='number' hidden={codigo.hidden} onChange={(e)=>{onChangeCodigo(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <Button label='Enviar codigo' type='button' hidden={enviarCodigo} onClick={onClickEnviarCodigo}/>
                         <Button label='Reenviar codigo' type='button' hidden={compararCodigo} onClick={onClickReenviarCodigo}/>
                         <br />
                         <Button label='Comparar codigo' type='button' hidden={compararCodigo} onClick={onClickCompararCodigo}/>
-                    </div>
+                    </Field>
                 </form>
-            </div>
+            </Box>
             <Alert label={alert.label} hidden={alert.hidden} type={alert.type}/>
             <Loader hidden={loader}/>
-        </div>
+        </Container>
     )
 }

@@ -6,6 +6,9 @@ import Alert from '../../components/alert';
 import Loader from '../../components/loader';
 import { pessoaService } from '../../services/pessoa/pessoa-service';
 import { useParams, useNavigate } from 'react-router-dom';
+import Box from '../../components/box';
+import Field from '../../components/field';
+import Container from '../../components/container';
 
 export default function AlterarSenha(){
     const [senha , setSenha] = useState('');
@@ -51,27 +54,27 @@ export default function AlterarSenha(){
     }
 
     return(
-        <div className={styles.container}>
-            <div className={styles.box}>
+        <Container>
+            <Box>
                 <h1>Recuperação de senha</h1>
                 <br />
                 <br />
                 <form>
-                    <div className={styles.field}>
+                    <Field>
                         <label htmlFor="senha">Nova senha:</label>
                         <Input value={senha} placeholder='Digite uma nova senha' id='senha' name='senha' type='password' hidden={false} onChange={(e)=>{onChangeSenha(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <label htmlFor="codigo">Confirmar senha:</label>
                         <Input value={senhaConfirmar} placeholder='Digite a senha novamente:' id='senha-confirmar' name='senha-confirmar' type='password' hidden={false} onChange={(e)=>{onChangeSenhaConfirmar(e)}}/>
-                    </div>
-                    <div className={styles.field}>
+                    </Field>
+                    <Field>
                         <Button label='Alterar senha' type='button' hidden={false} onClick={onClickAlterarSenha}/>
-                    </div>
+                    </Field>
                 </form>
-            </div>
+            </Box>
             <Alert label={alert.label} hidden={alert.hidden} type={alert.type}/>
             <Loader hidden={loader}/>
-        </div>
+        </Container>
     )
 }
