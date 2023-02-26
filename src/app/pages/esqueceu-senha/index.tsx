@@ -95,11 +95,11 @@ export default function EsqueceuSenha(){
                 <form>
                     <Field>
                         <label htmlFor="email" hidden={email.hidden}>E-mail:</label>
-                        <Input value={email.value} placeholder='Digite seu e-mail' id='email' name='email' type='email' hidden={email.hidden} onChange={(e)=>{onChangeEmail(e)}}/>
+                        <Input value={email.value} placeholder='Digite seu e-mail' id='email' name='email' type='email' hidden={email.hidden} onChange={(e)=>{onChangeEmail(e)}} onEnter={()=>{}}/>
                     </Field>
                     <Field>
                         <label htmlFor="codigo" hidden={codigo.hidden}>Codigo:</label>
-                        <Input value={codigo.value} placeholder='Digite o codigo enviado:' id='codigo' name='codigo' type='number' hidden={codigo.hidden} onChange={(e)=>{onChangeCodigo(e)}}/>
+                        <Input value={codigo.value} placeholder='Digite o codigo enviado:' id='codigo' name='codigo' type='number' hidden={codigo.hidden} onChange={(e)=>{onChangeCodigo(e)}} onEnter={()=>{}}/>
                     </Field>
                     <Field>
                         <Button label='Enviar codigo' type='button' hidden={enviarCodigo} onClick={onClickEnviarCodigo}/>

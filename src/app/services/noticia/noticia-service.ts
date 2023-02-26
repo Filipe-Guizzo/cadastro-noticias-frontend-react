@@ -1,7 +1,7 @@
 import { NoticiaProps } from './../../interfaces/noticia';
 import { api } from '../api';
 
-const listar =  async ():Promise<[NoticiaProps[]]>=>{
+const listar =  async ():Promise<NoticiaProps[]>=>{
     const token = localStorage.getItem('token');
     const data = await api.get("/noticias/", {headers: {'Authorization': "Bearer " + token}})
     .then(({data})=>{
@@ -36,7 +36,7 @@ const criar =  async (noticia: NoticiaProps):Promise<NoticiaProps>=>{
 
 const atualizar =  async (id:number,noticia: NoticiaProps):Promise<NoticiaProps>=>{
     const token = localStorage.getItem('token');
-    const data = await api.put(`/noticias/${id}`, noticia, {headers: {'Authorization': "Bearer " + token}})
+    const data = await api.put(`/noticias/${id}/`, noticia, {headers: {'Authorization': "Bearer " + token}})
     .then(({data})=>{
         return data
     }).catch((erro)=>{
@@ -68,6 +68,17 @@ const uploadFile =  async (id:number, file:FormData):Promise<NoticiaProps>=>{
     return data
 }
 
+const buscar =  async (termo:any):Promise<NoticiaProps[]>=>{
+    const token = localStorage.getItem('token');
+    const data = await api.get(`/noticias/search/${termo}/`, {headers: {'Authorization': "Bearer " + token}})
+    .then(({data})=>{
+        return data
+    }).catch((erro)=>{
+        return erro.response.data
+    })
+    return data
+}
+
 
 export const noticiaService = {
     listar,
@@ -76,4 +87,5 @@ export const noticiaService = {
     atualizar,
     deletar,
     uploadFile,
+    buscar,
 }

@@ -12,14 +12,16 @@ import Container from '../../components/container';
 import SelectInput from '../../components/select-input';
 import { noticiaService } from '../../services/noticia/noticia-service';
 import FileInput from '../../components/file-input';
+import { useParams } from 'react-router-dom';
 import { authContext } from '../../contexts/auth-context';
 
-export default function CadastrarNoticia(){
+export default function AtualizarNoticia(){
     const [titulo, setTitulo] = useState('');
     const [conteudo, setConteudo] = useState('');
     const [categoria, setCategoria] = useState(-1);
     const [categorias, setCategorias] = useState<CategoriaProps[]>([]);
     const [imagem, setImagem] = useState(null);
+    const { idNoticia } = useParams();
     const { idUsuario } = useContext(authContext);
 
     const [alert, setAlert] = useState({hidden: 'hide',label: '',type: 'danger'});
@@ -32,6 +34,18 @@ export default function CadastrarNoticia(){
             setCategorias(data);
         } 
         listaCategorias();
+        setLoader('hide');
+    },[])
+    
+    useEffect (()=>{
+        setLoader('show');
+        const listaNoticia =  async () =>{
+            const data =  await noticiaService.listarPorId(Number(idNoticia)!);
+            setTitulo(data.titulo);
+            setConteudo(data.conteudo);
+            setCategoria(data.id_categoria);
+        } 
+        listaNoticia();
         setLoader('hide');
     },[])
 
@@ -55,7 +69,7 @@ export default function CadastrarNoticia(){
         setImagem(value);
     }
 
-    async function onClickCadastrar(){
+    async function onClickAtualizar(){
         setLoader('show');
         const noticia = {
             titulo: titulo,
@@ -70,7 +84,7 @@ export default function CadastrarNoticia(){
             setAlert({hidden: 'show',label: 'Preencha todos os campos',type: 'danger'})
             setLoader('hide');
         }else{
-            const data = await noticiaService.criar(noticia);
+            const data = await noticiaService.atualizar(Number(idNoticia),noticia);
             if(data?.id){
                 const form = new FormData();
                 form.append("file", imagem);
@@ -116,7 +130,7 @@ export default function CadastrarNoticia(){
                             <FileInput id='imagem' name='imagem' onChange={(e)=>{onChangeImagem(e)}}/>
                         </Field>
                         <Field>
-                            <Button label='Cadastrar' type='button' hidden={false} onClick={onClickCadastrar}/>
+                            <Button label='Atualizar' type='button' hidden={false} onClick={onClickAtualizar}/>
                         </Field>
                     </form>
                 </Box>

@@ -51,7 +51,7 @@ export default function CadastrarCategoria(){
                     <form>
                         <Field>
                             <label htmlFor="nome">Nome:</label>
-                            <Input value={nome} placeholder='Digite seu nome' id='nome' name='nome' type='text' hidden={false} onChange={(e)=>{onChangeNome(e)}}/>
+                            <Input value={nome} placeholder='Digite o nome' id='nome' name='nome' type='text' hidden={false} onChange={(e)=>{onChangeNome(e)}} onEnter={()=>{}}/>
                         </Field>
                         <Field>
                             <Button label='Cadastrar' type='button' hidden={false} onClick={onClickCadastrar}/>

@@ -1,0 +1,30 @@
+.container{
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../../assets/blob.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 20px;
+}
+
+label{
+    font-size: 15pt;
+}
+
+
+a{
+    color: var(--primary);
+}

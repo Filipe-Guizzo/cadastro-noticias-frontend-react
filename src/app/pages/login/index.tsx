@@ -63,11 +63,11 @@ export default function Login(){
                 <form>
                     <Field>
                         <label htmlFor="email">E-mail:</label>
-                        <Input value={email} placeholder='Digite seu e-mail' id='email' name='email' type='email' hidden={false} onChange={(e)=>{onChangeEmail(e)}}/>
+                        <Input value={email} placeholder='Digite seu e-mail' id='email' name='email' type='email' hidden={false} onChange={(e)=>{onChangeEmail(e)}} onEnter={()=>{}}/>
                     </Field>
                     <Field>
                         <label htmlFor="senha">Senha:</label>
-                        <Input value={senha} placeholder='Digite sua senha' id='senha' name='senha' type='password' hidden={false} onChange={(e)=>{onChangeSenha(e)}}/>
+                        <Input value={senha} placeholder='Digite sua senha' id='senha' name='senha' type='password' hidden={false} onChange={(e)=>{onChangeSenha(e)}} onEnter={()=>{}}/>
                     </Field>
                     <Field>
                         <Button label='Entrar' type='button' hidden={false} onClick={onClickEntrar}/>

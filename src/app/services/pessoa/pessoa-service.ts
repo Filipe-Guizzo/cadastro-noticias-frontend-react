@@ -38,7 +38,7 @@ const criar =  async (pessoa: PessoaProps):Promise<PessoaProps>=>{
 
 const atualizar =  async (id:number,pessoa: PessoaProps):Promise<PessoaProps>=>{
     const token = localStorage.getItem('token');
-    const data = await api.put(`/pessoas/${id}`, pessoa, {headers: {'Authorization': "Bearer " + token}})
+    const data = await api.put(`/pessoas/${id}/`, pessoa, {headers: {'Authorization': "Bearer " + token}})
     .then(({data})=>{
         return data
     }).catch((erro)=>{

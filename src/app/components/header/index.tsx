@@ -7,12 +7,24 @@ import { authContext } from "../../contexts/auth-context";
 import { pessoaService } from "../../services/pessoa/pessoa-service";
 import { PessoaProps } from "../../interfaces/pessoa";
 import { environment } from "../../environments/environments";
+import { buscaContext } from "../../contexts/buscar-context";
 
 export default function Header({buscaInput}:HeaderProps){
     const [ usuario, setUsuario ] = useState<PessoaProps>({nome:'', imagem:'', telefone:'', email:'', senha:''});
+    const [ busca, setBusca] = useState('');
+    const { setBuscar } = useContext(buscaContext);
     const { clearToken, idUsuario } = useContext(authContext);
     function logout(){
         clearToken();
+    }
+
+    function onChangeBusca(e:any){
+        const value = e.target.value;
+        setBusca(value);
+    }
+
+    function onBuscar(){
+        setBuscar(busca);
     }
 
     useEffect(()=>{
@@ -29,9 +41,9 @@ export default function Header({buscaInput}:HeaderProps){
                 <div className={styles.boxFotoPerfil}>
                     <img src={usuario.imagem?environment.urlApi + usuario.imagem:require("../../assets/avatar.jpeg")} alt="foto-perfil" className={styles.fotoPerfil}/>
                 </div>
-                <h3>{usuario?.nome}</h3>
+                <h3><Link to={`/atualizar-pessoa/${idUsuario}`}>{usuario?.nome}</Link></h3>
             </div>
-            <Input id="busca" name="busca" placeholder="Buscar noticia:" type="text" hidden={!buscaInput} value={''} onChange={()=>{}}/>
+            <Input id="busca" name="busca" placeholder="Buscar noticia:" type="text" hidden={!buscaInput} value={busca} onChange={(e)=>{onChangeBusca(e)}} onEnter={onBuscar}/>
             <div className={styles.nav}>
                 <nav>
                     <ul>

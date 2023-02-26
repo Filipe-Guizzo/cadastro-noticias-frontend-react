@@ -6,4 +6,5 @@ export interface InputProps{
     hidden: boolean
     value: any
     onChange: (e:any)=>void
+    onEnter: ()=>void
 }

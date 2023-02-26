@@ -62,11 +62,11 @@ export default function AlterarSenha(){
                 <form>
                     <Field>
                         <label htmlFor="senha">Nova senha:</label>
-                        <Input value={senha} placeholder='Digite uma nova senha' id='senha' name='senha' type='password' hidden={false} onChange={(e)=>{onChangeSenha(e)}}/>
+                        <Input value={senha} placeholder='Digite uma nova senha' id='senha' name='senha' type='password' hidden={false} onChange={(e)=>{onChangeSenha(e)}} onEnter={()=>{}}/>
                     </Field>
                     <Field>
                         <label htmlFor="codigo">Confirmar senha:</label>
-                        <Input value={senhaConfirmar} placeholder='Digite a senha novamente:' id='senha-confirmar' name='senha-confirmar' type='password' hidden={false} onChange={(e)=>{onChangeSenhaConfirmar(e)}}/>
+                        <Input value={senhaConfirmar} placeholder='Digite a senha novamente:' id='senha-confirmar' name='senha-confirmar' type='password' hidden={false} onChange={(e)=>{onChangeSenhaConfirmar(e)}} onEnter={()=>{}}/>
                     </Field>
                     <Field>
                         <Button label='Alterar senha' type='button' hidden={false} onClick={onClickAlterarSenha}/>

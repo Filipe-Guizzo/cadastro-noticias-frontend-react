@@ -36,7 +36,7 @@ const criar =  async (categoria: CategoriaProps):Promise<CategoriaProps>=>{
 
 const atualizar =  async (id:number,categoria: CategoriaProps):Promise<CategoriaProps>=>{
     const token = localStorage.getItem('token');
-    const data = await api.put(`/categorias/${id}`, categoria, {headers: {'Authorization': "Bearer " + token}})
+    const data = await api.put(`/categorias/${id}/`, categoria, {headers: {'Authorization': "Bearer " + token}})
     .then(({data})=>{
         return data
     }).catch((erro)=>{

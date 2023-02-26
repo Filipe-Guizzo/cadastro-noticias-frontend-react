@@ -8,6 +8,8 @@ import AlterarSenha from "../pages/alterar-senha";
 import CadastrarPessoa from "../pages/cadastrar-pessoa";
 import CadastrarCategoria from "../pages/cadastrar-categoria";
 import CadastrarNoticia from "../pages/cadastrar-noticia";
+import AtualizarNoticia from "../pages/atualizar-noticia";
+import AtualizarPessoa from "../pages/atualizar-pessoa";
 
 export default function Rotas(){
     const [authToken, setAuthToken] = useState(localStorage.getItem('token')!)
@@ -43,6 +45,8 @@ export default function Rotas(){
                         <Route path="/home" element={<Home/>} />
                         <Route path="/cadastrar-categoria" element={<CadastrarCategoria/>} />
                         <Route path="/cadastrar-noticia" element={<CadastrarNoticia/>} />
+                        <Route path="/atualizar-noticia/:idNoticia" element={<AtualizarNoticia/>} />
+                        <Route path="/atualizar-pessoa/:idUsuario" element={<AtualizarPessoa/>} />
                         <Route path="*" element={<Navigate to="/home"/>} />
                     </Routes>
                     :

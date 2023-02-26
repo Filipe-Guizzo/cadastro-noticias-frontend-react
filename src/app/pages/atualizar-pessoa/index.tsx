@@ -1,18 +1,17 @@
 import Button from '../../components/button';
 import Input from '../../components/input';
 import styles from './styles.module.css';
-import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Alert from '../../components/alert';
 import Loader from '../../components/loader';
-import { authContext } from '../../contexts/auth-context';
 import { pessoaService } from '../../services/pessoa/pessoa-service';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import FileInput from '../../components/file-input';
 import Box from '../../components/box';
 import Field from '../../components/field';
+import Header from '../../components/header';
 
-export default function CadastrarPessoa(){
+export default function AtualizarPessoa(){
     const [nome, setNome] = useState('');
     const [telefone, setTelefone] = useState('');
     const [email, setEmail] = useState('');
@@ -23,7 +22,7 @@ export default function CadastrarPessoa(){
 
     const [alert, setAlert] = useState({hidden: 'hide',label: '',type: 'danger'});
     const [loader, setLoader] = useState('hide');
-    const { setToken, setIsAuth, setIdUsuario } = useContext(authContext);
+    const { idUsuario } = useParams();
 
     function onChangeNome(e:any){
         const value = e.target.value;
@@ -55,7 +54,20 @@ export default function CadastrarPessoa(){
         setImagem(value);
     }
 
-    async function onClickCadastrar(){
+    useEffect(()=>{
+        setLoader('show');
+        const listarPessoa = async ()=>{
+            const data = await pessoaService.listarPorId(Number(idUsuario));
+            setNome(data.nome);
+            setTelefone(data.telefone);
+            setEmail(data.email);
+            setLoader('hide');
+        }
+        listarPessoa();
+
+    }, [])
+
+    async function onClickAtualizar(){
         setLoader('show');
         const pessoa = {
             nome: nome,
@@ -77,15 +89,12 @@ export default function CadastrarPessoa(){
                 setAlert({hidden: 'show',label: 'Senhas diferentes',type: 'danger'})
                 setLoader('hide');
             }else{
-                const data = await pessoaService.criar(pessoa);
+                const data = await pessoaService.atualizar( Number(idUsuario),pessoa);
                 if(data?.token){
-                    setToken(data.token);
-                    setIdUsuario(data.id!);
                     const form = new FormData();
                     form.append("file", imagem);
                     await pessoaService.uploadFile(data?.id!, form);
-                    setIsAuth(true);
-                    setAlert({hidden: 'show',label: 'Cadastrado com sucesso',type: 'success'})
+                    setAlert({hidden: 'show',label: 'Atualizado com sucesso',type: 'success'})
                     setLoader('hide');
                     navigate('/home');
                 }else{
@@ -98,6 +107,8 @@ export default function CadastrarPessoa(){
     }
 
     return(
+        <>
+        <Header buscaInput={false} />
         <div className={styles.container}>
             <Box>
                 <h1>Cadastro</h1>
@@ -128,15 +139,13 @@ export default function CadastrarPessoa(){
                         <FileInput id='imagem'  name='imagem' onChange={(e)=>{onChangeImagem(e)}}/>
                     </Field>
                     <Field>
-                        <Button label='Cadastrar' type='button' hidden={false} onClick={onClickCadastrar}/>
+                        <Button label='Atualizar' type='button' hidden={false} onClick={onClickAtualizar}/>
                     </Field>
                 </form>
-                <br />
-                <br />
-                <Link to="/login">Já possui uma conta?</Link>
             </Box>
             <Alert label={alert.label} hidden={alert.hidden} type={alert.type}/>
             <Loader hidden={loader}/>
         </div>
+        </>
     )
 }
